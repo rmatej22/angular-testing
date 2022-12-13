@@ -1,6 +1,6 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
+import { click, expectText } from 'src/app/spec-helpers/element.spec-helper';
 import { CounterComponent } from './counter.component';
 
 describe('CounterComponent', () => {
@@ -21,14 +21,18 @@ describe('CounterComponent', () => {
   });
 
   it('increments the count', () => {
-    const incrementBtn = debugEl.query(By.css('[data-testid="increment-button"]'));
-
-    incrementBtn.triggerEventHandler('click', null);
+    click(fixture, 'increment-button');
 
     fixture.detectChanges();
 
-    const count = debugEl.query(By.css('[data-testid="count"]'));
+    expectText(fixture, 'count', '1');
+  });
 
-    expect(count.nativeElement.textContent).toBe('1');
+  it('decrements the count', () => {
+    click(fixture, 'decrement-button');
+
+    fixture.detectChanges();
+
+    expectText(fixture, 'count', '-1');
   });
 });
