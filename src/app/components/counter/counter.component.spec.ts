@@ -1,7 +1,9 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { click, expectText } from 'src/app/spec-helpers/element.spec-helper';
+import { click, expectText } from 'src/app/helpers/element.spec-helper';
 import { CounterComponent } from './counter.component';
+
+const startCount = 123;
 
 describe('CounterComponent', () => {
   let fixture: ComponentFixture<CounterComponent>;
@@ -17,7 +19,15 @@ describe('CounterComponent', () => {
         fixture = TestBed.createComponent(CounterComponent);
         component = fixture.componentInstance;
         debugEl = fixture.debugElement;
+        // set starting count to our variable by input
+        component.startCount = startCount;
+        component.ngOnChanges();
+        fixture.detectChanges();
       });
+  });
+
+  it('shows the start count', () => {
+    expectText(fixture, 'count', String(startCount));
   });
 
   it('increments the count', () => {
