@@ -38,3 +38,31 @@ export function expectText<T>(
   const elText = element.nativeElement.textContent;
   expect(elText).toBe(text);
 }
+
+// set value in some field
+export function setFieldValue<T>(
+  fixture: ComponentFixture<T>,
+  id: string,
+  value: string,
+): void {
+  setFieldElementValue(findElement(fixture, id).nativeElement, value);
+}
+// setts value and dispatch event
+export function setFieldElementValue(
+  element: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement,
+  value: string,
+): void {
+  element.value = value;
+  const isSelect = element instanceof HTMLSelectElement;
+  dispatchFakeEvent(element, isSelect ? 'change' : 'input', isSelect ? false : true);
+}
+// dispatch fake event
+export function dispatchFakeEvent(
+  element: EventTarget,
+  type: string,
+  bubbles: boolean = false,
+): void {
+  const event = document.createEvent('Event');
+  event.initEvent(type, bubbles, false);
+  element.dispatchEvent(event);
+}
