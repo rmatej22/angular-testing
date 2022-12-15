@@ -66,3 +66,11 @@ export function dispatchFakeEvent(
   event.initEvent(type, bubbles, false);
   element.dispatchEvent(event);
 }
+
+// function that finds component we need
+export function findComponent<T>(
+  fixture: ComponentFixture<T>,
+  selector: string,
+): DebugElement {
+  return fixture.debugElement.query(By.css(selector));
+}
